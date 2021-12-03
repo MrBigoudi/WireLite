@@ -5,8 +5,9 @@ package pobj.exceptions;
  * @author Sharane et Yannis
  *
  */
-public class WrongProtocoleException extends Exception {
-	public WrongProtocoleException(String m)
+@SuppressWarnings("serial")
+public class UnsupportedProtocolException extends Exception {
+	public UnsupportedProtocolException(String m)
 	{
 		super(m);
 	}
