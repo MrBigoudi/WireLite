@@ -1,7 +1,7 @@
 package pobj.exceptions;
 
 /**
- * Exception levee si un protocole est utilise dans une mauvaise couche
+ * Exception levee si une valeure incoherente est entree dans un champ d'une entete de protocole
  * @author Sharane et Yannis
  *
  */

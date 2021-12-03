@@ -2,12 +2,30 @@ package pobj.res.header;
 
 import pobj.exceptions.ErrorValueException;
 
+/**
+ * Classe gerant une entete ip
+ * @author Sharane et Yannis
+ *
+ */
 public class IP extends Header {
+	/**
+	 * Construit une entete ip
+	 * @param value Chaine de longueur variable composee d'octets sans espaces
+	 */
 	public IP(String value)
 	{
 		String version = value.substring(0, 2);
 		String headerLength = value.substring(2, 4);
-		
+		String tos = value.substring(4,8);
+		String dataLength = value.substring(8,16);
+		String identifier = value.substring(16,24);
+		//TODO fragment offset
+		String ttl = value.substring(32,36);
+		String protocol = value.substring(36,40);
+		String checksum = value.substring(40,48);
+		String srcIp = value.substring(48,64);
+		String dstIp = value.substring(64,80);
+		//TODO options
 		
 		//test de validité des champs
 		try

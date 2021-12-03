@@ -5,6 +5,11 @@ import org.junit.Test;
 
 import pobj.res.header.*;
 
+/**
+ * Classe testant l'initialisation d'un header ethernet
+ * @author Sharane et Yannis
+ *
+ */
 public class TestEthernet {
 
 	@Test

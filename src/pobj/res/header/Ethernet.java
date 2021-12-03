@@ -4,6 +4,11 @@ import java.util.StringJoiner;
 
 import pobj.exceptions.UnsupportedProtocolException;
 
+/**
+ * Classe initialisant une entete ethernet
+ * @author Sharane et Yannis
+ *
+ */
 public class Ethernet extends Header {
 
 	/**

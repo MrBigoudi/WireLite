@@ -1,7 +1,7 @@
 package pobj.exceptions;
 
 /**
- * Exception levee si un protocole est utilise dans une mauvaise couche
+ * Exception levee si une valeur representant un protocole non suporte est passee dans un champ d'une entete
  * @author Sharane et Yannis
  *
  */
