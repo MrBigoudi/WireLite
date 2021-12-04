@@ -39,4 +39,10 @@ public class Field {
 	{
 		return a_name;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return this.getName()+":\n\t"+this.getValue();
+	}
 }
