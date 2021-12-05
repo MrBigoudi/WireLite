@@ -10,7 +10,11 @@ import pobj.exceptions.UnsupportedProtocolException;
  *
  */
 public class Ethernet extends Header {
-
+	//constantes representant l'indice des champs de l'entete IP dans la liste des champs
+	public static final int ETH_DST_ADDR = 0;
+	public static final int ETH_SRC_ADDR = 1;
+	public static final int ETH_TYPE = 2;
+	
 	/**
 	 * Construit une entete ethernet
 	 * @param value Chaine de 14 octets sans espaces
