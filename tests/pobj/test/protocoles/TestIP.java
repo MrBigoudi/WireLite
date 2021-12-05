@@ -17,7 +17,7 @@ public class TestIP {
 	 */
 	@Test
 	public void test() {
-		IP ip = new IP("45000034238440004006d00bc0a801c225305f9a");
+		IP ip = new IP("4500012ca8360000fa11178b00000000ffffffff");
 		System.out.println(ip);
 	}
 }
