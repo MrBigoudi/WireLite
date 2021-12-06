@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import pobj.res.header.IP;
 
+
 /**
  * Classe testant l'initialisation d'un header ethernet
  * @author Sharane et Yannis
