@@ -1,11 +1,5 @@
 package pobj.res.header;
 
-import pobj.res.header.*;
-
-import java.util.StringJoiner;
-
-import pobj.exceptions.ErrorValueException;
-import pobj.res.StringUtility;
 
 /**
  * Classe gerant une entete DHCP

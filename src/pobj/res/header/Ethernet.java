@@ -39,8 +39,8 @@ public class Ethernet extends Header {
 		Field type = this.getFields().get(2);
 		
 		sb.append("Ethernet II:\n");
-		sb.append("\t"+dst.getName()+":\n\t\t"+this.strToMacAddress(dst.getValue())+"\n");
-		sb.append("\t"+src.getName()+":\n\t\t"+this.strToMacAddress(src.getValue())+"\n");
+		sb.append("\t"+dst.getName()+":\n\t\t"+Ethernet.strToMacAddress(dst.getValue())+"\n");
+		sb.append("\t"+src.getName()+":\n\t\t"+Ethernet.strToMacAddress(src.getValue())+"\n");
 		
 		try {
 			sb.append("\t"+type.getName()+":\n\t\t"+this.getEthernetType(type.getValue())+" (0x"+type.getValue()+")");
