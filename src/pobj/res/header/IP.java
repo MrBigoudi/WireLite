@@ -147,10 +147,39 @@ public class IP extends Header {
 	@Override
 	public String toString()
 	{
-		StringJoiner sj = new StringJoiner("\n");
-		for(Field f : this.getFields())
-			sj.add(f.toString());
-		return sj.toString();
+		StringBuilder sb = new StringBuilder();
+		Field vers = this.getFields().get(0);
+		Field headLen = this.getFields().get(1);
+		Field tos = this.getFields().get(2);
+		Field dLen = this.getFields().get(3);
+		Field ident = this.getFields().get(4);
+		Field r = this.getFields().get(5);
+		Field df = this.getFields().get(6);
+		Field mf = this.getFields().get(7);
+		Field fOff = this.getFields().get(8);
+		Field ttl = this.getFields().get(9);
+		Field proto = this.getFields().get(10);
+		Field chks = this.getFields().get(11);
+		Field srcIP = this.getFields().get(12);
+		Field destIP = this.getFields().get(13);
+
+		sb.append("Internet Protocol Version 4 :\n");
+		sb.append("\t"+vers.getName()+" :  "+StringUtility.hexaToInt(vers.getValue())+" (0x"+vers.getValue()+")\n");
+		sb.append("\t"+headLen.getName()+" :  "+StringUtility.hexaToInt(headLen.getValue())*4+" bytes (0x"+headLen.getValue()+")\n");
+		sb.append("\t"+tos.getName()+" :  "+StringUtility.hexaToInt(tos.getValue())+" (0x"+tos.getValue()+")\n");
+		sb.append("\t"+dLen.getName()+" :  "+StringUtility.hexaToInt(dLen.getValue())+" (0x"+dLen.getValue()+")\n");
+		sb.append("\t"+ident.getName()+" :  0x"+ident.getValue()+" ("+StringUtility.hexaToInt(ident.getValue())+")\n");		
+		sb.append("\t"+r.getName()+" :  "+StringUtility.hexaToInt(r.getValue())+" (0x"+r.getValue()+")\n");
+		sb.append("\t"+df.getName()+" :  "+StringUtility.hexaToInt(df.getValue())+" (0x"+df.getValue()+")\n");
+		sb.append("\t"+mf.getName()+" :  "+StringUtility.hexaToInt(mf.getValue())+" (0x"+mf.getValue()+")\n");
+		sb.append("\t"+fOff.getName()+" :  "+StringUtility.hexaToInt(fOff.getValue())+" (0x"+fOff.getValue()+")\n");
+		sb.append("\t"+ttl.getName()+" :  "+StringUtility.hexaToInt(ttl.getValue())+" (0x"+ttl.getValue()+")\n");
+		sb.append("\t"+proto.getName()+" :  "+StringUtility.hexaToInt(proto.getValue())+" (0x"+proto.getValue()+")\n");
+		sb.append("\t"+chks.getName()+" :  0x"+chks.getValue()+"\n");
+		sb.append("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")\n");
+		sb.append("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")\n");
+
+		return sb.toString();
 	}
 
 	/**

@@ -50,11 +50,29 @@ public class UDP extends Header {
 		
 		sb.append("User Datagram Protocol :\n");
 		sb.append("\t"+srcp.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+srcp.getValue()+")\n");
-		sb.append("\t"+destp.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+destp.getValue()+")\n");
-		sb.append("\t"+totl.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+totl.getValue()+")\n");
+		sb.append("\t"+destp.getName()+":  "+StringUtility.hexaToInt(destp.getValue())+" (0x"+destp.getValue()+")\n");
+		sb.append("\t"+totl.getName()+":  "+StringUtility.hexaToInt(totl.getValue())+" (0x"+totl.getValue()+")\n");
 		sb.append("\t"+chks.getName()+":  0x"+chks.getValue()+"\n");
 		
 		return sb.toString();
 
+	}
+	
+	/**
+	 * Renvoie la longueur de l'entete udp
+	 * @return La longueur de l'entete udp
+	 */
+	@Override
+	public int getLength() {
+		return 16;
+	}
+
+	/**
+	 * Renvoie la valeur du champ 'Protocol' de l'entete udp
+	 * @return La valeur du champ
+	 */
+	@Override
+	public String getNext() {
+		return "";
 	}
 }

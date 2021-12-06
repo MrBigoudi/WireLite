@@ -101,37 +101,55 @@ public class DHCP extends Header {
 		
 		sb.append("Dynamic Host Configuration Protocol : \n");
 		if (Integer.parseInt(op.getValue(),16)==1)
-			sb.append("\t"+op.getName()+": Boot Request ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
+			sb.append("\t"+op.getName()+" : Boot Request ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
 		if (Integer.parseInt(op.getValue(),16)==2)
-			sb.append("\t"+op.getName()+": Boot Reply ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
+			sb.append("\t"+op.getName()+" : Boot Reply ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
 		if (Integer.parseInt(hardtype.getValue(),16)==1)
-			sb.append("\t"+hardtype.getName()+":  Ethernet (0x"+hardtype.getValue()+")\n");
+			sb.append("\t"+hardtype.getName()+" :  Ethernet (0x"+hardtype.getValue()+")\n");
 		else
-			sb.append("\t"+hardtype.getName()+":  "+ StringUtility.hexaToInt(hardtype.getValue()) +" (0x"+hardtype.getValue()+")\n");
-		sb.append("\t"+hardadlen.getName()+":  "+StringUtility.hexaToInt(hardadlen.getValue())+" (0x"+hardadlen.getValue()+")\n");
-		sb.append("\t"+hop.getName()+":  "+StringUtility.hexaToInt(hop.getValue())+" (0x"+hop.getValue()+")\n");
-		sb.append("\t"+transId.getName()+" 0x"+transId.getValue()+"\n");
-		sb.append("\t"+sec.getName()+":  "+StringUtility.hexaToInt(sec.getValue())+" (0x"+sec.getValue()+")\n");
-		sb.append("\t"+fl.getName()+":  "+StringUtility.hexaToInt(fl.getValue())+" (0x"+fl.getValue()+")\n");
-		sb.append("\t"+cliIp.getName()+":  "+IP.convertHexToIP(cliIp.getValue())+" (0x"+cliIp.getValue()+")\n");
-		sb.append("\t"+yIp.getName()+":  "+IP.convertHexToIP(yIp.getValue())+" (0x"+yIp.getValue()+")\n");
-		sb.append("\t"+srvIp.getName()+":  "+IP.convertHexToIP(srvIp.getValue())+" (0x"+srvIp.getValue()+")\n");
-		sb.append("\t"+gateIp.getName()+":  "+IP.convertHexToIP(gateIp.getValue())+" (0x"+gateIp.getValue()+")\n");
-		sb.append("\t"+clihardadd.getName()+":  "+Ethernet.strToMacAddress(clihardadd.getValue())+" (0x"+clihardadd.getValue()+")\n");
-		sb.append("\t"+clipad.getName()+": (0x"+clipad.getValue()+")\n");
+			sb.append("\t"+hardtype.getName()+" :  "+ StringUtility.hexaToInt(hardtype.getValue()) +" (0x"+hardtype.getValue()+")\n");
+		sb.append("\t"+hardadlen.getName()+" :  "+StringUtility.hexaToInt(hardadlen.getValue())+" (0x"+hardadlen.getValue()+")\n");
+		sb.append("\t"+hop.getName()+" :  "+StringUtility.hexaToInt(hop.getValue())+" (0x"+hop.getValue()+")\n");
+		sb.append("\t"+transId.getName()+" : 0x"+transId.getValue()+"\n");
+		sb.append("\t"+sec.getName()+" :  "+StringUtility.hexaToInt(sec.getValue())+" (0x"+sec.getValue()+")\n");
+		sb.append("\t"+fl.getName()+" :  "+StringUtility.hexaToInt(fl.getValue())+" (0x"+fl.getValue()+")\n");
+		sb.append("\t"+cliIp.getName()+" :  "+IP.convertHexToIP(cliIp.getValue())+" (0x"+cliIp.getValue()+")\n");
+		sb.append("\t"+yIp.getName()+" :  "+IP.convertHexToIP(yIp.getValue())+" (0x"+yIp.getValue()+")\n");
+		sb.append("\t"+srvIp.getName()+" :  "+IP.convertHexToIP(srvIp.getValue())+" (0x"+srvIp.getValue()+")\n");
+		sb.append("\t"+gateIp.getName()+" :  "+IP.convertHexToIP(gateIp.getValue())+" (0x"+gateIp.getValue()+")\n");
+		sb.append("\t"+clihardadd.getName()+" :  "+Ethernet.strToMacAddress(clihardadd.getValue())+" (0x"+clihardadd.getValue()+")\n");
+		sb.append("\t"+clipad.getName()+" : (0x"+clipad.getValue()+")\n");
 		if (Integer.parseInt(srvname.getValue(),16)==0)
 			sb.append("\t"+srvname.getName()+" not given \n");
 		else
-			sb.append("\t"+srvname.getName()+":  "+Integer.parseInt(srvname.getValue(),16)+" (0x"+srvname.getValue()+")\n");
+			sb.append("\t"+srvname.getName()+" :  "+Integer.parseInt(srvname.getValue(),16)+" (0x"+srvname.getValue()+")\n");
 		if (Integer.parseInt(bootfname.getValue(),16)==0)
 			sb.append("\t"+bootfname.getName()+" not given \n");
 		else
-			sb.append("\t"+bootfname.getName()+":  "+Integer.parseInt(bootfname.getValue(),16)+" (0x"+bootfname.getValue()+")\n");
+			sb.append("\t"+bootfname.getName()+" :  "+Integer.parseInt(bootfname.getValue(),16)+" (0x"+bootfname.getValue()+")\n");
 		
 		if (Integer.parseInt(magic.getValue(),16)==1669485411)// vérifier avec un split en 4 de 0x63825363 
-			sb.append("\t"+magic.getName()+":  DHCP\n");
+			sb.append("\t"+magic.getName()+" :  DHCP\n");
 
 		return sb.toString();
+	}
+	
+	/**
+	 * Renvoie la longueur de l'entete dhcp
+	 * @return La longueur de l'entete dhcp
+	 */
+	@Override
+	public int getLength() {
+		return 474;
+	}
+
+	/**
+	 * Renvoie la valeur du champ 'Protocol' de l'entete dhcp
+	 * @return La valeur du champ
+	 */
+	@Override
+	public String getNext() {
+		return "";
 	}
 
 }
