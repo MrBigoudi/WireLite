@@ -26,6 +26,7 @@ public class IP extends Header {
 	public static final int IP_HEADER_CHECKSUM_INDICE = 11;
 	public static final int IP_SRC_ADDR_INDICE = 12;
 	public static final int IP_DEST_ADDR_INDICE = 13;
+	public static final int IP_OPTIONS = 14;
 	
 	/**
 	 * Construit une entete ip
@@ -54,7 +55,7 @@ public class IP extends Header {
 		String srcIp = value.substring(24,32);
 		String dstIp = value.substring(32,40);	
 		
-		//TODO options
+		String options = value.substring(40, this.getLength());
 		
 		//test de validité des champs
 		try
@@ -80,6 +81,7 @@ public class IP extends Header {
 		this.addField(new Field(checksum, "Header Checksum"));
 		this.addField(new Field(srcIp, "Source Address"));
 		this.addField(new Field(dstIp, "Destination Address"));
+		this.addField(new Field(options, "options"));
 		
 	}
 	
@@ -134,20 +136,21 @@ public class IP extends Header {
 	public String toString()
 	{
 		StringJoiner sj = new StringJoiner("\n");
-		Field vers = this.getFields().get(0);
-		Field headLen = this.getFields().get(1);
-		Field tos = this.getFields().get(2);
-		Field dLen = this.getFields().get(3);
-		Field ident = this.getFields().get(4);
-		Field r = this.getFields().get(5);
-		Field df = this.getFields().get(6);
-		Field mf = this.getFields().get(7);
-		Field fOff = this.getFields().get(8);
-		Field ttl = this.getFields().get(9);
-		Field proto = this.getFields().get(10);
-		Field chks = this.getFields().get(11);
-		Field srcIP = this.getFields().get(12);
-		Field destIP = this.getFields().get(13);
+		Field vers = this.getFields().get(IP.IP_VERSION_INDICE);
+		Field headLen = this.getFields().get(IP.IP_IHL_INDICE);
+		Field tos = this.getFields().get(IP.IP_TOS_INDICE);
+		Field dLen = this.getFields().get(IP.IP_TOTAL_LENGTH_INDICE);
+		Field ident = this.getFields().get(IP.IP_IDENTIFICATION_INDICE);
+		Field r = this.getFields().get(IP.IP_R_INDICE);
+		Field df = this.getFields().get(IP.IP_DF_INDICE);
+		Field mf = this.getFields().get(IP.IP_MF_INDICE);
+		Field fOff = this.getFields().get(IP.IP_FRAGMENT_OFFSET_INDICE);
+		Field ttl = this.getFields().get(IP.IP_TTL_INDICE);
+		Field proto = this.getFields().get(IP.IP_PROTOCOL_INDICE);
+		Field chks = this.getFields().get(IP.IP_HEADER_CHECKSUM_INDICE);
+		Field srcIP = this.getFields().get(IP.IP_SRC_ADDR_INDICE);
+		Field destIP = this.getFields().get(IP.IP_DEST_ADDR_INDICE);
+		Field options = this.getFields().get(IP.IP_OPTIONS);
 
 		sj.add("Internet Protocol Version 4 :");
 		sj.add("\t"+vers.getName()+" :  "+StringUtility.hexaToInt(vers.getValue())+" (0x"+vers.getValue()+")");
@@ -164,10 +167,10 @@ public class IP extends Header {
 		sj.add("\t"+chks.getName()+" :  0x"+chks.getValue()+"\n");
 		sj.add("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")");
 		sj.add("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")");
-
+		sj.add("\t"+options.getName()+" :\n" + this.getOptions());
 		return sj.toString();
 	}
-
+	
 	/**
 	 * Renvoie la longueur de l'entete ip
 	 * @return La longueur de l'entete ip
@@ -184,5 +187,59 @@ public class IP extends Header {
 	@Override
 	public String getNext() {
 		return this.getFields().get(IP.IP_PROTOCOL_INDICE).getValue();
+	}
+	
+	/**
+	 * Renvoie les options sous forme de chaine de characteres
+	 * @return Les options formates
+	 */
+	private String getOptions()
+	{
+		StringJoiner sj = new StringJoiner("\n");
+		//valeur des options
+		String options = this.getFields().get(IP.IP_OPTIONS).getValue();
+		int pointer = 0;
+		//tant que l'on n'est pas arrive a la fin des options
+		while(pointer < options.length())
+		{
+			//creation de la chaine representant l'option
+			StringBuilder sb = new StringBuilder();
+			//valeur entiere de l'option
+			int valeurOption = StringUtility.hexaToInt(options.substring(pointer, pointer+1));
+			//mise a jour du pointeur
+			pointer+=2;
+			//switch sur la valeur des options
+			switch(valeurOption)
+			{
+			case 0://fin de la liste des options
+				sb.append("End of Options List (EOOL)");
+				sj.add(sb);
+				return sj.toString();
+			case 1://cas NOP
+				sb.append("No Operation (NOP)");
+				//tant que on a des NOP et que l'on n'a pas atteint la fin de l'entete on avance dans les options
+				while(StringUtility.hexaToInt(options.substring(pointer, pointer+1)) == 1 && pointer<options.length())
+					pointer+=2;
+				sj.add(sb);
+				break;
+			case 7://RR
+				//champ lenogueur de l'option
+				int optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+1));
+				//debut de la chaine representant l'option
+				sb.append("Record Route (RR): length ");
+				sb.append(optionLength);
+				//pour chaque next hop
+				for(int i=pointer; i<pointer+optionLength-2; i+=2)
+					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+1)));
+				//maj taille du pointeur
+				pointer += optionLength-2;//-2 car le champ type est deja lue
+				//ajout de l'option dans la chaine finale
+				sj.add(sb);
+				break;
+			default://autres options si possible
+				break;
+			}
+		}
+		return sj.toString();
 	}
 }
