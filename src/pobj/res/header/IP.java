@@ -60,7 +60,6 @@ public class IP extends Header {
 		try
 		{
 			this.testVersion(version);
-			//this.testHeaderLength(headerLength, value);
 		}catch(ErrorValueException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
@@ -93,25 +92,7 @@ public class IP extends Header {
 	{
 		if(!version.equals("4"))
 			throw new ErrorValueException("Mauvaise valeure pour le champ 'Version' de IP!");
-	}
-	
-	
-	/**************** TODO a modifier
-	/**
-	 * Test si la valeur du champ 'HeaderLength' est coherente
-	 * @param headerLength La valeur du champ sous forme de chaine de characteres
-	 * @param ipValue La valeur de l'entete ip sous forme de chaine de characteres
-	 * @throws ErrorValueException
-	 */
-	/**
-	private void testHeaderLength(String headerLength, String ipValue) throws ErrorValueException
-	{
-		int theoreticalLength = StringUtility.hexaToInt(headerLength);
-		if(ipValue.length() != 2*theoreticalLength*4) //2* car length renvoie le nombre de demi-octets (ie le nombre de characteres en hexa)
-			throw new ErrorValueException("Valeure incohérente pour le champ 'HeaderLength' de IP!");
-	}
-	**************************/
-	
+	}	
 	
 	/**
 	 * Initialise un tableau contenant les valeurs des elements du fragment offset

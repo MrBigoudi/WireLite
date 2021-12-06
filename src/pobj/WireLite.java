@@ -13,7 +13,7 @@ import pobj.res.*;
  */
 public class WireLite {
 	//file temporaire dans laquelle sera copie le contenu du fichier en entree
-	private static final String TMP_COPY_FILE_PATH = "tmpFile";
+	//private static final String TMP_COPY_FILE_PATH = "tmpFile";
 	
 	public static void main(String[] args)
 	{
@@ -33,7 +33,6 @@ public class WireLite {
 			System.out.println("The given argument is not a file !");
 			return;
 		}
-		//copy du fichier d'origine
 		
 		//mise en place des trames au bon format
 		InputFileManager ifm = new InputFileManager(originFile.getPath());
@@ -54,6 +53,5 @@ public class WireLite {
 		for(ITrame trame : listTrames)
 			System.out.println(trame.toString());
 		
-		//suppression du fichier temporaire
 	}
 }
