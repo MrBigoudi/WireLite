@@ -1,5 +1,7 @@
 package pobj.res.header;
 
+import pobj.res.StringUtility;
+
 /**
  * Classe gerant une entete UDP
  * @author Sharane et Yannis
@@ -46,10 +48,10 @@ public class UDP extends Header {
 		Field totl = this.getFields().get(2);
 		Field chks = this.getFields().get(3);
 		
-		sb.append("User Datagram Protocol :, Src Port : "+Integer.parseInt(srcp.getValue(),16)+", Dest Port : "+Integer.parseInt(destp.getValue(),16)+"\n");
-		sb.append("\t"+srcp.getName()+":  "+Integer.parseInt(srcp.getValue(),16)+" (0x"+srcp.getValue()+")\n");
-		sb.append("\t"+destp.getName()+":  "+Integer.parseInt(destp.getValue(),16)+" (0x"+destp.getValue()+")\n");
-		sb.append("\t"+totl.getName()+":  "+Integer.parseInt(totl.getValue(),16)+" (0x"+totl.getValue()+")\n");
+		sb.append("User Datagram Protocol :\n");
+		sb.append("\t"+srcp.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+srcp.getValue()+")\n");
+		sb.append("\t"+destp.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+destp.getValue()+")\n");
+		sb.append("\t"+totl.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+totl.getValue()+")\n");
 		sb.append("\t"+chks.getName()+":  0x"+chks.getValue()+"\n");
 		
 		return sb.toString();

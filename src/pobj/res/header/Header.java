@@ -28,11 +28,11 @@ public abstract class Header {
 	 * Renvoie la taille de l'entete
 	 * @return La taille de l'entete
 	 */
-	public abstract int getLength();
+	//public abstract int getLength();
 	
 	/**
 	 * Renvoie la valeur du champ identifiant le prochain entete encapsule s'il existe
 	 * @return La valeur de ce champ ou chaine vide s'il n'existe pas
 	 */
-	public abstract String getNext();
+	//public abstract String getNext();
 }
