@@ -1,5 +1,6 @@
 package pobj.res.header;
 
+import pobj.res.StringUtility;
 
 /**
  * Classe gerant une entete DHCP
@@ -100,18 +101,18 @@ public class DHCP extends Header {
 		
 		sb.append("Dynamic Host Configuration Protocol : \n");
 		if (Integer.parseInt(op.getValue(),16)==1)
-			sb.append("\t"+op.getName()+": Boot Request ("+Integer.parseInt(op.getValue(),16)+") (0x"+op.getValue()+")\n");
+			sb.append("\t"+op.getName()+": Boot Request ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
 		if (Integer.parseInt(op.getValue(),16)==2)
-			sb.append("\t"+op.getName()+": Boot Reply ("+Integer.parseInt(op.getValue(),16)+") (0x"+op.getValue()+")\n");
+			sb.append("\t"+op.getName()+": Boot Reply ("+StringUtility.hexaToInt(op.getValue())+") (0x"+op.getValue()+")\n");
 		if (Integer.parseInt(hardtype.getValue(),16)==1)
 			sb.append("\t"+hardtype.getName()+":  Ethernet (0x"+hardtype.getValue()+")\n");
 		else
-			sb.append("\t"+hardtype.getName()+":  "+Integer.parseInt(hardtype.getValue(),16) +" (0x"+hardtype.getValue()+")\n");
-		sb.append("\t"+hardadlen.getName()+":  "+Integer.parseInt(hardadlen.getValue(),16)+" (0x"+hardadlen.getValue()+")\n");
-		sb.append("\t"+hop.getName()+":  "+Integer.parseInt(hop.getValue(),16)+" (0x"+hop.getValue()+")\n");
+			sb.append("\t"+hardtype.getName()+":  "+ StringUtility.hexaToInt(hardtype.getValue()) +" (0x"+hardtype.getValue()+")\n");
+		sb.append("\t"+hardadlen.getName()+":  "+StringUtility.hexaToInt(hardadlen.getValue())+" (0x"+hardadlen.getValue()+")\n");
+		sb.append("\t"+hop.getName()+":  "+StringUtility.hexaToInt(hop.getValue())+" (0x"+hop.getValue()+")\n");
 		sb.append("\t"+transId.getName()+" 0x"+transId.getValue()+"\n");
-		sb.append("\t"+sec.getName()+":  "+Integer.parseInt(sec.getValue(),16)+" (0x"+sec.getValue()+")\n");
-		sb.append("\t"+fl.getName()+":  "+Integer.parseInt(fl.getValue(),16)+" (0x"+fl.getValue()+")\n");
+		sb.append("\t"+sec.getName()+":  "+StringUtility.hexaToInt(sec.getValue())+" (0x"+sec.getValue()+")\n");
+		sb.append("\t"+fl.getName()+":  "+StringUtility.hexaToInt(fl.getValue())+" (0x"+fl.getValue()+")\n");
 		sb.append("\t"+cliIp.getName()+":  "+IP.convertHexToIP(cliIp.getValue())+" (0x"+cliIp.getValue()+")\n");
 		sb.append("\t"+yIp.getName()+":  "+IP.convertHexToIP(yIp.getValue())+" (0x"+yIp.getValue()+")\n");
 		sb.append("\t"+srvIp.getName()+":  "+IP.convertHexToIP(srvIp.getValue())+" (0x"+srvIp.getValue()+")\n");
