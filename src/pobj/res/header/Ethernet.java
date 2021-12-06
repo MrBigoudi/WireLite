@@ -53,7 +53,7 @@ public class Ethernet extends Header {
 	 * @param str La chaine d'octets a mettre en forme
 	 * @return La chaine sous forme d'addresse MAC
 	 */
-	private String strToMacAddress(String str)
+	static String strToMacAddress(String str)
 	{
 		//System.out.println(str);
 		StringJoiner sj = new StringJoiner(":","(",")");

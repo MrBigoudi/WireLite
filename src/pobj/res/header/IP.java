@@ -125,6 +125,20 @@ public class IP extends Header {
 		return res;
 	}
 	
+	public static String convertHexToIP(String hex)
+	{
+	    String ip= "";
+
+	    for (int j = 0; j < hex.length(); j+=2) {
+	        String sub = hex.substring(j, j+2);
+	        int num = Integer.parseInt(sub, 16);
+	        ip += num+".";
+	    }
+
+	    ip = ip.substring(0, ip.length()-1);
+	    return ip;
+	}
+	
 	@Override
 	public String toString()
 	{

@@ -1,5 +1,6 @@
 package pobj.res.header;
 
+import java.util.List;
 import java.util.StringJoiner;
 
 import pobj.exceptions.ErrorValueException;
@@ -45,9 +46,19 @@ public class UDP extends Header {
 	@Override
 	public String toString()
 	{
-		StringJoiner sj = new StringJoiner("\n");
-		for(Field f : this.getFields())
-			sj.add(f.toString());
-		return sj.toString();
+		StringBuilder sb = new StringBuilder();
+		Field srcp = this.getFields().get(0);
+		Field destp = this.getFields().get(1);
+		Field totl = this.getFields().get(2);
+		Field chks = this.getFields().get(3);
+		
+		sb.append("User Datagram Protocol :, Src Port : "+Integer.parseInt(srcp.getValue(),16)+", Dest Port : "+Integer.parseInt(destp.getValue(),16)+"\n");
+		sb.append("\t"+srcp.getName()+":  "+Integer.parseInt(srcp.getValue(),16)+" (0x"+srcp.getValue()+")\n");
+		sb.append("\t"+destp.getName()+":  "+Integer.parseInt(destp.getValue(),16)+" (0x"+destp.getValue()+")\n");
+		sb.append("\t"+totl.getName()+":  "+Integer.parseInt(totl.getValue(),16)+" (0x"+totl.getValue()+")\n");
+		sb.append("\t"+chks.getName()+":  0x"+chks.getValue()+"\n");
+		
+		return sb.toString();
+
 	}
 }
