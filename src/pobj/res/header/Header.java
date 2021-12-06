@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * @author Sharane et Yannis
  *
  */
-public class Header {
+public abstract class Header {
 	//liste de champs
 	private List<Field> a_fields = new ArrayList<>();
 	
@@ -23,4 +23,16 @@ public class Header {
 	 * @return
 	 */
 	public List<Field> getFields(){return a_fields;}
+	
+	/**
+	 * Renvoie la taille de l'entete
+	 * @return La taille de l'entete
+	 */
+	public abstract int getLength();
+	
+	/**
+	 * Renvoie la valeur du champ identifiant le prochain entete encapsule s'il existe
+	 * @return La valeur de ce champ ou chaine vide s'il n'existe pas
+	 */
+	public abstract String getNext();
 }

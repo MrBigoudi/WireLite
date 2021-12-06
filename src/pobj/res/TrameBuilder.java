@@ -34,9 +34,9 @@ public class TrameBuilder implements ITrameBuilder {
 		//ajout de l'entete ethernet dans la trame
 		this.getTrame().setLiaison(eth);
 		//mise a jour du pointeur de la chaine representant la trame
-		contentPointer += 28;//fin de l'entet ethernet
+		contentPointer += eth.getLength();
 		//mise a jour du prochain type encapsule
-		nextType = trame.getLiaison().getFields().get(Ethernet.ETH_TYPE).getValue();
+		nextType = eth.getNext();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class TrameBuilder implements ITrameBuilder {
 	 */
 	@Override
 	public void buildReseau() {
-		Header reseau;
+		Header reseau = null;
 		//on test le type du paquet de la couche Reseau
 		switch(nextType)
 		{
@@ -52,16 +52,16 @@ public class TrameBuilder implements ITrameBuilder {
 		case "0800":
 			//creation de l'entete ip
 			reseau = new IP(content.substring(this.contentPointer));
-			//ajout de l'entete ip
-			this.getTrame().setReseau(reseau);
-			//mise a jour du pointeur
-			contentPointer += (2*4*StringUtility.hexaToInt(reseau.getFields().get(IP.IP_IHL_INDICE).getValue())); 
-			//mise a jour du prochain type encapsule
-			nextType = reseau.getFields().get(IP.IP_PROTOCOL_INDICE).getValue();
 			break;
 		default:
-			break;
+			return;
 		}
+		//ajout de l'entete ip
+		this.getTrame().setReseau(reseau);
+		//mise a jour du pointeur
+		contentPointer += reseau.getLength(); 
+		//mise a jour du prochain type encapsule
+		nextType = reseau.getNext();
 	}
 
 	/**

@@ -152,4 +152,22 @@ public class IP extends Header {
 			sj.add(f.toString());
 		return sj.toString();
 	}
+
+	/**
+	 * Renvoie la longueur de l'entete ip
+	 * @return La longueur de l'entete ip
+	 */
+	@Override
+	public int getLength() {
+		return (2*4*StringUtility.hexaToInt(this.getFields().get(IP.IP_IHL_INDICE).getValue()));
+	}
+
+	/**
+	 * Renvoie la valeur du champ 'Protocol' de l'entete ip
+	 * @return La valeur du champ
+	 */
+	@Override
+	public String getNext() {
+		return this.getFields().get(IP.IP_PROTOCOL_INDICE).getValue();
+	}
 }

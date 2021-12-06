@@ -103,4 +103,22 @@ public class Ethernet extends Header {
 		
 		return res;
 	}
+
+	/**
+	 * Renvoie la taille de l'entete ethernet
+	 * @return la taille de l'entete ethernet
+	 */
+	@Override
+	public int getLength() {
+		return 28;
+	}
+
+	/**
+	 * Renvoie la valeur du champ 'type' de l'entete
+	 * @return La valeur du champ
+	 */
+	@Override
+	public String getNext() {
+		return this.getFields().get(Ethernet.ETH_TYPE).getValue();
+	}
 }
