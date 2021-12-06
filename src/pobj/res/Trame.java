@@ -14,7 +14,6 @@ public class Trame implements ITrame{
 	private Header coucheReseau;//entete de la couche reseau
 	private Header coucheTransport;//entete de la couche transport
 	private Header coucheApplication;//entete de la couche application
-	private String data;//donnees de la trame
 	
 	/**
 	 * Set l'entete de la couche liaison
@@ -45,13 +44,6 @@ public class Trame implements ITrame{
 	public void setApplication(Header application) {coucheApplication = application;}
 	
 	/**
-	 * Set les donnees de la trame
-	 * @param data Les donnees de la trame
-	 */
-	@Override
-	public void setData(String data) {this.data = data;}
-	
-	/**
 	 * Accesseur sur l'entete de la couche liaison
 	 * @return L'entete voulue
 	 */
@@ -75,12 +67,6 @@ public class Trame implements ITrame{
 	 */
 	public Header getApplication() {return coucheApplication;}
 	
-	/**
-	 * Accesseur sur les donnees de la trame
-	 * @return Les donnees de la trame
-	 */
-	public String getData() {return data;}
-	
 	@Override
 	public String toString()
 	{
@@ -91,8 +77,6 @@ public class Trame implements ITrame{
 		sj.add(this.getReseau().toString());
 		sj.add(this.getTransport().toString());
 		sj.add(this.getApplication().toString());
-		sj.add("Data de la trame:");
-		sj.add(this.getData());
 		sj.add("\nFin de trame");
 		sj.add("########################################");
 		

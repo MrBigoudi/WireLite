@@ -1,6 +1,5 @@
 package pobj.res;
 
-import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.header.*;
 
 /**
@@ -78,15 +77,6 @@ public class TrameBuilder implements ITrameBuilder {
 	 */
 	@Override
 	public void buildApplication() {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * Initialise le champ data de la trame
-	 */
-	@Override
-	public void buildData() {
 		// TODO Auto-generated method stub
 
 	}

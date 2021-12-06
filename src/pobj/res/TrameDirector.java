@@ -33,6 +33,5 @@ public class TrameDirector {
 		this.trameBuilder.buildReseau();
 		this.trameBuilder.buildTransport();
 		this.trameBuilder.buildApplication();
-		this.trameBuilder.buildData();
 	}
 }

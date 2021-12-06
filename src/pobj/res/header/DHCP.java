@@ -26,6 +26,8 @@ public class DHCP extends Header {
 	public static final int BOOT_FILE_NAME_INDICE = 14;
 	public static final int MAGIC_COOKIE_INDICE = 15;
 	
+	private String valeur;
+	
 	
 	/**
 	 * Construit une entete DHCP
@@ -33,6 +35,8 @@ public class DHCP extends Header {
 	 */
 	public DHCP(String value)
 	{
+		valeur = value;
+	
 		String opcode = value.substring(0, 2);
 		String hardwareType = value.substring(2, 4);
 		String hardwareAddressLength = value.substring(4,6);
@@ -140,7 +144,7 @@ public class DHCP extends Header {
 	 */
 	@Override
 	public int getLength() {
-		return 474;
+		return valeur.length();
 	}
 
 	/**

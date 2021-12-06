@@ -130,6 +130,11 @@ public class IP extends Header {
 		return res;
 	}
 	
+	/**
+	 * Met en forme un hexa sous forme d'adresse ip
+	 * @param hex L'hexa a formater
+	 * @return La chaine sous forme d'adresse ip
+	 */
 	public static String convertHexToIP(String hex)
 	{
 	    String ip= "";
@@ -147,7 +152,7 @@ public class IP extends Header {
 	@Override
 	public String toString()
 	{
-		StringBuilder sb = new StringBuilder();
+		StringJoiner sj = new StringJoiner("\n");
 		Field vers = this.getFields().get(0);
 		Field headLen = this.getFields().get(1);
 		Field tos = this.getFields().get(2);
@@ -163,23 +168,23 @@ public class IP extends Header {
 		Field srcIP = this.getFields().get(12);
 		Field destIP = this.getFields().get(13);
 
-		sb.append("Internet Protocol Version 4 :\n");
-		sb.append("\t"+vers.getName()+" :  "+StringUtility.hexaToInt(vers.getValue())+" (0x"+vers.getValue()+")\n");
-		sb.append("\t"+headLen.getName()+" :  "+StringUtility.hexaToInt(headLen.getValue())*4+" bytes (0x"+headLen.getValue()+")\n");
-		sb.append("\t"+tos.getName()+" :  "+StringUtility.hexaToInt(tos.getValue())+" (0x"+tos.getValue()+")\n");
-		sb.append("\t"+dLen.getName()+" :  "+StringUtility.hexaToInt(dLen.getValue())+" (0x"+dLen.getValue()+")\n");
-		sb.append("\t"+ident.getName()+" :  0x"+ident.getValue()+" ("+StringUtility.hexaToInt(ident.getValue())+")\n");		
-		sb.append("\t"+r.getName()+" :  "+StringUtility.hexaToInt(r.getValue())+" (0x"+r.getValue()+")\n");
-		sb.append("\t"+df.getName()+" :  "+StringUtility.hexaToInt(df.getValue())+" (0x"+df.getValue()+")\n");
-		sb.append("\t"+mf.getName()+" :  "+StringUtility.hexaToInt(mf.getValue())+" (0x"+mf.getValue()+")\n");
-		sb.append("\t"+fOff.getName()+" :  "+StringUtility.hexaToInt(fOff.getValue())+" (0x"+fOff.getValue()+")\n");
-		sb.append("\t"+ttl.getName()+" :  "+StringUtility.hexaToInt(ttl.getValue())+" (0x"+ttl.getValue()+")\n");
-		sb.append("\t"+proto.getName()+" :  "+StringUtility.hexaToInt(proto.getValue())+" (0x"+proto.getValue()+")\n");
-		sb.append("\t"+chks.getName()+" :  0x"+chks.getValue()+"\n");
-		sb.append("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")\n");
-		sb.append("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")\n");
+		sj.add("Internet Protocol Version 4 :");
+		sj.add("\t"+vers.getName()+" :  "+StringUtility.hexaToInt(vers.getValue())+" (0x"+vers.getValue()+")");
+		sj.add("\t"+headLen.getName()+" :  "+StringUtility.hexaToInt(headLen.getValue())*4+" bytes (0x"+headLen.getValue()+")");
+		sj.add("\t"+tos.getName()+" :  "+StringUtility.hexaToInt(tos.getValue())+" (0x"+tos.getValue()+")");
+		sj.add("\t"+dLen.getName()+" :  "+StringUtility.hexaToInt(dLen.getValue())+" (0x"+dLen.getValue()+")");
+		sj.add("\t"+ident.getName()+" :  0x"+ident.getValue()+" ("+StringUtility.hexaToInt(ident.getValue())+")");		
+		sj.add("\t"+r.getName()+" :  "+StringUtility.hexaToInt(r.getValue())+" (0x"+r.getValue()+")");
+		sj.add("\t"+df.getName()+" :  "+StringUtility.hexaToInt(df.getValue())+" (0x"+df.getValue()+")");
+		sj.add("\t"+mf.getName()+" :  "+StringUtility.hexaToInt(mf.getValue())+" (0x"+mf.getValue()+")");
+		sj.add("\t"+fOff.getName()+" :  "+StringUtility.hexaToInt(fOff.getValue())+" (0x"+fOff.getValue()+")");
+		sj.add("\t"+ttl.getName()+" :  "+StringUtility.hexaToInt(ttl.getValue())+" (0x"+ttl.getValue()+")");
+		sj.add("\t"+proto.getName()+" :  "+StringUtility.hexaToInt(proto.getValue())+" (0x"+proto.getValue()+")");
+		sj.add("\t"+chks.getName()+" :  0x"+chks.getValue()+"\n");
+		sj.add("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")");
+		sj.add("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")");
 
-		return sb.toString();
+		return sj.toString();
 	}
 
 	/**

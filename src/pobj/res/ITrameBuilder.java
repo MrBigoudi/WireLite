@@ -27,11 +27,6 @@ public interface ITrameBuilder {
 	public void buildApplication();
 	
 	/**
-	 * Initialise les donnees de la trame
-	 */
-	public void buildData();
-	
-	/**
 	 * Renvoie la trame cree
 	 * @return La trame cree
 	 */

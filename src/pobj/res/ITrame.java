@@ -31,10 +31,4 @@ public interface ITrame {
 	 * @param L'entete application
 	 */
 	public void setApplication(Header application);
-	
-	/**
-	 * Set les donnees de la trame
-	 * @param data Les donnees de la trame
-	 */
-	public void setData(String data);
 }
