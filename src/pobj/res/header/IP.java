@@ -221,11 +221,11 @@ public class IP extends Header {
 			switch(valeurOption)
 			{
 			case 0://fin de la liste des options
-				sb.append("End of Options List (EOOL)");
+				sb.append("\t\tEnd of Options List (EOOL)");
 				sj.add(sb);
 				return sj.toString();
 			case 1://cas NOP
-				sb.append("No Operation (NOP)");
+				sb.append("\t\tNo Operation (NOP)");
 				//tant que on a des NOP et que l'on n'a pas atteint la fin de l'entete on avance dans les options
 				while(StringUtility.hexaToInt(options.substring(pointer, pointer+2)) == 1 && pointer<options.length())
 					pointer+=2;
@@ -235,11 +235,11 @@ public class IP extends Header {
 				//champ lenogueur de l'option
 				int optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
 				//debut de la chaine representant l'option
-				sb.append("Record Route (RR): length ");
-				sb.append(optionLength);
+				sb.append("\t\tRecord Route (RR): length ");
+				sb.append(optionLength+"\n\t\t");
 				//pour chaque next hop
-				for(int i=pointer; i<pointer+optionLength-2; i+=2)
-					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+2)));
+				for(int i=pointer; i<pointer+optionLength-2; i+=8)//-2 car on enleve le type de l'option et sa longueur
+					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+8)));
 				//maj taille du pointeur
 				pointer += optionLength-2;//-2 car le champ type est deja lue
 				//ajout de l'option dans la chaine finale
