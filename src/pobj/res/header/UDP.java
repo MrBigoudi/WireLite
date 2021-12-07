@@ -115,6 +115,9 @@ public class UDP extends Header {
 		case 68:
 			res = "DHCP";
 			break;
+		case 53:
+			res = "DNS";
+			break;
 		case 123:
 			res = "NTP";
 			unsupported = true;
