@@ -238,7 +238,7 @@ public class IP extends Header {
 				sb.append("\t\tRecord Route (RR): length ");
 				sb.append(optionLength+"\n\t\t");
 				//pour chaque next hop
-				for(int i=pointer; i<pointer+optionLength-2; i+=8)//-2 car on enleve le type de l'option et sa longueur
+				for(int i=pointer+2; i<pointer+optionLength-2; i+=8)//-2 car on enleve le type de l'option et sa longueur
 					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+8)));
 				//maj taille du pointeur
 				pointer += optionLength-2;//-2 car le champ type est deja lue
