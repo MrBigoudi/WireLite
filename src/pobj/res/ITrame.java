@@ -31,4 +31,28 @@ public interface ITrame {
 	 * @param L'entete application
 	 */
 	public void setApplication(Header application);
+	
+	/**
+	 * Accesseur sur l'entete de la couche liaison
+	 * @return L'entete voulue
+	 */
+	public Header getLiaison();
+	
+	/**
+	 * Accesseur sur l'entete de la couche reseau
+	 * @return L'entete voulue
+	 */
+	public Header getReseau();
+	
+	/**
+	 * Accesseur sur l'entete de la couche transport
+	 * @return L'entete voulue
+	 */
+	public Header getTransport();
+	
+	/**
+	 * Accesseur sur l'entete de la couche application
+	 * @return L'entete voulue
+	 */
+	public Header getApplication();
 }

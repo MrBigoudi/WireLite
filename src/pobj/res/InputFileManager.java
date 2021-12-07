@@ -43,7 +43,7 @@ public class InputFileManager {
 		**/
 		for(int i=0; i<tmp3.size(); i++)
 		{
-			//s'il manque une ligne dans la trame on l'neleve de la liste de trames
+			//s'il manque une ligne dans la trame on l'enleve de la liste de trames
 			if(!this.testTrameSansLigneManquante(tmp3.get(i)))
 			{
 				System.out.println("Trame "+(i+1)+" a une ou plusieurs lignes manquantes");//on compte les traes a partir de 1
@@ -63,6 +63,8 @@ public class InputFileManager {
 			List<String[]> tmp = tmp3.get(i);
 			if(!tmp.isEmpty())
 				this.listTrames.add(this.removeUselessHex(tmp));
+			else
+				this.listTrames.add(null);
 			System.out.println("Fin test Trame "+(i+1)+"\n");
 		}
 	}
@@ -71,6 +73,7 @@ public class InputFileManager {
 	 * Affiche une liste de String[]
 	 * @param liste La liste a afficher
 	 */
+	@SuppressWarnings("unused")
 	private void afficheListStringTab(List<String[]> liste)
 	{
 		for(String[] tab : liste)
@@ -127,8 +130,8 @@ public class InputFileManager {
 		{
 			String[] tmp = s.split(" ");
 			tmp = Arrays.stream(tmp).filter(e -> e.trim().length() > 0).toArray(String[]::new);
-			//si la ligne n'est pas vide
-			if(tmp.length!=0)
+			//si la ligne n'est pas vide et commence par un Hexa
+			if(tmp.length!=0 && this.isHex(tmp[0]))
 				res.add(tmp);
 		}
 		return res;

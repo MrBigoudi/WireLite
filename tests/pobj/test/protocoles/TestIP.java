@@ -3,7 +3,10 @@ package pobj.test.protocoles;
 //import static org.junit.Assert.*;
 import org.junit.Test;
 
-import pobj.res.header.IP;
+import pobj.res.ITrame;
+import pobj.res.InputFileManager;
+import pobj.res.TrameBuilder;
+import pobj.res.header.*;
 
 
 /**
@@ -16,9 +19,26 @@ public class TestIP {
 	/**
 	 * Test un header IP
 	 */
+	/**
 	@Test
-	public void test() {
+	public void testSample() {
 		IP ip = new IP("4500012ca8360000fa11178b00000000ffffffff");
+		System.out.println(ip);
+	}
+	**/
+	
+	/**
+	 * Test un header IP avec option Record Route
+	 */
+	@Test
+	public void testOptionRR() {
+		InputFileManager ifm = new InputFileManager("data/testProtocoles/IPOptionRR");
+		String content = ifm.getTrames().get(0);
+		TrameBuilder trBuild = new TrameBuilder(content);
+		trBuild.buildLiaison();
+		trBuild.buildReseau();
+		ITrame trame = trBuild.getTrame();
+		Header ip = trame.getReseau();
 		System.out.println(ip);
 	}
 }

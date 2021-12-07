@@ -36,6 +36,7 @@ public class IP extends Header {
 	{
 		String version = value.substring(0, 1);
 		String headerLength = value.substring(1, 2);
+				
 		String tos = value.substring(2,4);
 		String dataLength = value.substring(4,8);
 		
@@ -54,8 +55,6 @@ public class IP extends Header {
 		String checksum = value.substring(20,24);
 		String srcIp = value.substring(24,32);
 		String dstIp = value.substring(32,40);	
-		
-		String options = value.substring(40, this.getLength());
 		
 		//test de validité des champs
 		try
@@ -81,7 +80,16 @@ public class IP extends Header {
 		this.addField(new Field(checksum, "Header Checksum"));
 		this.addField(new Field(srcIp, "Source Address"));
 		this.addField(new Field(dstIp, "Destination Address"));
-		this.addField(new Field(options, "options"));
+		
+		//ajout des options
+		//test longueur
+		if(this.getLength()>value.length())
+		{
+			System.out.println("Erreur taille IP");
+			return;
+		}
+		String options = value.substring(40, this.getLength());
+		this.addField(new Field(options, "Options"));
 		
 	}
 	
@@ -164,7 +172,7 @@ public class IP extends Header {
 		sj.add("\t"+fOff.getName()+" :  "+StringUtility.hexaToInt(fOff.getValue())+" (0x"+fOff.getValue()+")");
 		sj.add("\t"+ttl.getName()+" :  "+StringUtility.hexaToInt(ttl.getValue())+" (0x"+ttl.getValue()+")");
 		sj.add("\t"+proto.getName()+" :  "+StringUtility.hexaToInt(proto.getValue())+" (0x"+proto.getValue()+")");
-		sj.add("\t"+chks.getName()+" :  0x"+chks.getValue()+"\n");
+		sj.add("\t"+chks.getName()+" :  0x"+chks.getValue());
 		sj.add("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")");
 		sj.add("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")");
 		sj.add("\t"+options.getName()+" :\n" + this.getOptions());
@@ -198,6 +206,7 @@ public class IP extends Header {
 		StringJoiner sj = new StringJoiner("\n");
 		//valeur des options
 		String options = this.getFields().get(IP.IP_OPTIONS).getValue();
+		System.out.println(options);
 		int pointer = 0;
 		//tant que l'on n'est pas arrive a la fin des options
 		while(pointer < options.length())
@@ -205,7 +214,7 @@ public class IP extends Header {
 			//creation de la chaine representant l'option
 			StringBuilder sb = new StringBuilder();
 			//valeur entiere de l'option
-			int valeurOption = StringUtility.hexaToInt(options.substring(pointer, pointer+1));
+			int valeurOption = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
 			//mise a jour du pointeur
 			pointer+=2;
 			//switch sur la valeur des options
@@ -218,19 +227,19 @@ public class IP extends Header {
 			case 1://cas NOP
 				sb.append("No Operation (NOP)");
 				//tant que on a des NOP et que l'on n'a pas atteint la fin de l'entete on avance dans les options
-				while(StringUtility.hexaToInt(options.substring(pointer, pointer+1)) == 1 && pointer<options.length())
+				while(StringUtility.hexaToInt(options.substring(pointer, pointer+2)) == 1 && pointer<options.length())
 					pointer+=2;
 				sj.add(sb);
 				break;
 			case 7://RR
 				//champ lenogueur de l'option
-				int optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+1));
+				int optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
 				//debut de la chaine representant l'option
 				sb.append("Record Route (RR): length ");
 				sb.append(optionLength);
 				//pour chaque next hop
 				for(int i=pointer; i<pointer+optionLength-2; i+=2)
-					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+1)));
+					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+2)));
 				//maj taille du pointeur
 				pointer += optionLength-2;//-2 car le champ type est deja lue
 				//ajout de l'option dans la chaine finale
