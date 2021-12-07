@@ -51,9 +51,11 @@ public class TrameBuilder implements ITrameBuilder {
 	/**
 	 * Initialise l'entete reaseau de la trame
 	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
 	@Override
-	public void buildReseau() throws ErrorValueException {
+	public void buildReseau() throws ErrorValueException, TrameTooShortException, UnsupportedProtocolException {
 		Header reseau = null;
 		//on test le type du paquet de la couche Reseau
 		switch(nextType)
@@ -76,11 +78,28 @@ public class TrameBuilder implements ITrameBuilder {
 
 	/**
 	 * Initialise l'entete transport de la trame
+	 * @throws TrameTooShortException 
 	 */
 	@Override
-	public void buildTransport() {
-		// TODO Auto-generated method stub
-
+	public void buildTransport() throws TrameTooShortException {
+		Header transport = null;
+		//on test le type du paquet de la couche Reseau
+		switch(StringUtility.hexaToInt(nextType))
+		{
+		//cas couche Transport = UDP
+		case 17:
+			//creation de l'entete udp
+			transport = new UDP(content.substring(this.contentPointer));
+			break;
+		default:
+			return;
+		}
+		//ajout de l'entete udp
+		this.getTrame().setTransport(transport);
+		//mise a jour du pointeur
+		contentPointer += transport.getLength(); 
+		//mise a jour du prochain type encapsule
+		nextType = transport.getNext();
 	}
 
 	/**

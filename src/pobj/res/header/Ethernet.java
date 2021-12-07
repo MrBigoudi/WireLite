@@ -24,7 +24,7 @@ public class Ethernet extends Header {
 	 */
 	public Ethernet(String value) throws UnsupportedProtocolException, TrameTooShortException
 	{
-		if(value.length()<this.getLength())throw new TrameTooShortException("Il manque des octets dans la trame");
+		if(value.length()<this.getLength())throw new TrameTooShortException();
 		String destAddr = value.substring(0, 12);
 		String srcAddr = value.substring(12, 24);
 		String type = value.substring(24, 28);

@@ -7,8 +7,8 @@ package pobj.exceptions;
  */
 @SuppressWarnings("serial")
 public class TrameTooShortException extends Exception {
-	public TrameTooShortException(String m)
+	public TrameTooShortException()
 	{
-		super(m);
+		super("Il manque des octets dans la trame !");
 	}
 }

@@ -2,7 +2,7 @@ package pobj.res.header;
 
 import java.util.StringJoiner;
 
-import pobj.exceptions.ErrorValueException;
+import pobj.exceptions.*;
 import pobj.res.StringUtility;
 
 /**
@@ -32,9 +32,12 @@ public class IP extends Header {
 	 * Construit une entete ip
 	 * @param value Chaine de longueur variable composee d'octets sans espaces
 	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
-	public IP(String value) throws ErrorValueException
+	public IP(String value) throws ErrorValueException, TrameTooShortException, UnsupportedProtocolException
 	{
+		if(value.length()<40)throw new TrameTooShortException();
 		String version = value.substring(0, 1);
 		String headerLength = value.substring(1, 2);
 				
@@ -61,7 +64,10 @@ public class IP extends Header {
 		try
 		{
 			this.testVersion(version);
+			this.getIPProtocole(protocol);
 		}catch(ErrorValueException e) {
+			throw e;
+		} catch (UnsupportedProtocolException e) {
 			throw e;
 		}
 		
@@ -83,11 +89,7 @@ public class IP extends Header {
 		
 		//ajout des options
 		//test longueur
-		if(this.getLength()>value.length())
-		{
-			System.out.println("Erreur taille IP");
-			return;
-		}
+		if(this.getLength()>value.length())throw new TrameTooShortException();
 		String options = value.substring(40, this.getLength());
 		this.addField(new Field(options, "Options"));
 		
@@ -172,6 +174,9 @@ public class IP extends Header {
 		sj.add("\t"+fOff.getName()+" :  "+StringUtility.hexaToInt(fOff.getValue())+" (0x"+fOff.getValue()+")");
 		sj.add("\t"+ttl.getName()+" :  "+StringUtility.hexaToInt(ttl.getValue())+" (0x"+ttl.getValue()+")");
 		sj.add("\t"+proto.getName()+" :  "+StringUtility.hexaToInt(proto.getValue())+" (0x"+proto.getValue()+")");
+		try {
+			sj.add("\t\t"+this.getIPProtocole(proto.getValue()));
+		} catch (UnsupportedProtocolException e) {}
 		sj.add("\t"+chks.getName()+" :  0x"+chks.getValue());
 		sj.add("\t"+srcIP.getName()+" :  "+IP.convertHexToIP(srcIP.getValue())+" (0x"+srcIP.getValue()+")");
 		sj.add("\t"+destIP.getName()+" :  "+IP.convertHexToIP(destIP.getValue())+" (0x"+destIP.getValue()+")");
@@ -195,6 +200,63 @@ public class IP extends Header {
 	@Override
 	public String getNext() {
 		return this.getFields().get(IP.IP_PROTOCOL_INDICE).getValue();
+	}
+	
+	/**
+	 * Renvoie la signification du code "Protocole" de la trame IP
+	 * @param protocole Le code "Protocole" de la trame
+	 * @return La signification du code sous forme de chaine de characteres
+	 * @throws UnsupportedProtocolException
+	 */
+	private String getIPProtocole(String protocole) throws UnsupportedProtocolException
+	{
+		String res = "";
+		boolean unsupported = false;
+		int p = StringUtility.hexaToInt(protocole);
+		
+		switch(p)
+		{
+		case 1:
+			res = "ICMP";
+			unsupported = true;
+			break;
+		case 2:
+			res = "IGMP";
+			unsupported = true;
+			break;
+		case 6:
+			res = "TCP";
+			unsupported = true;
+			break;
+		case 8:
+			res = "EGP";
+			unsupported = true;
+			break;
+		case 9:
+			res = "IGP";
+			unsupported = true;
+			break;
+		case 17:
+			res = "UDP";
+			break;
+		case 36:
+			res = "XTP";
+			unsupported = true;
+			break;
+		case 46:
+			res = "RSVP";
+			unsupported = true;
+			break;
+		default:
+			res = "Unknown IP Protocole";
+			unsupported = true;
+			break;
+		}
+		
+		if(unsupported)
+			throw new UnsupportedProtocolException(res + " is not supported");
+		
+		return res;
 	}
 	
 	/**

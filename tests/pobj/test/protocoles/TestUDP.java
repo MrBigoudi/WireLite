@@ -3,6 +3,7 @@ package pobj.test.protocoles;
 //import static org.junit.Assert.*;
 import org.junit.Test;
 
+import pobj.exceptions.TrameTooShortException;
 import pobj.res.header.UDP;
 
 
@@ -16,9 +17,10 @@ public class TestUDP {
 
 	/**
 	 * Test un header UDP
+	 * @throws TrameTooShortException 
 	 */
 	@Test
-	public void test() {
+	public void test() throws TrameTooShortException {
 		UDP udp = new UDP("004400430118591f");
 		System.out.println(udp);
 	}

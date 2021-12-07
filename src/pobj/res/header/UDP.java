@@ -1,5 +1,6 @@
 package pobj.res.header;
 
+import pobj.exceptions.TrameTooShortException;
 import pobj.res.StringUtility;
 
 /**
@@ -18,9 +19,11 @@ public class UDP extends Header {
 	/**
 	 * Construit une entete UDP
 	 * @param value Chaine de longueur variable composee d'octets sans espaces
+	 * @throws TrameTooShortException 
 	 */
-	public UDP(String value)
+	public UDP(String value) throws TrameTooShortException
 	{
+		if(value.length()<this.getLength())throw new TrameTooShortException();
 		String srcPort = value.substring(0, 4);
 		String destPort = value.substring(4, 8);
 		String totLength = value.substring(8,12);

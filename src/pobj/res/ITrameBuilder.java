@@ -20,13 +20,16 @@ public interface ITrameBuilder {
 	/**
 	 * Initialise l'entete reseau de la trame
 	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
-	public void buildReseau() throws ErrorValueException;
+	public void buildReseau() throws ErrorValueException, TrameTooShortException, UnsupportedProtocolException;
 	
 	/**
 	 * Initialise l'entete transport de la trame
+	 * @throws TrameTooShortException 
 	 */
-	public void buildTransport();
+	public void buildTransport() throws TrameTooShortException;
 	
 	/**
 	 * Initialise l'entete application de la trame
