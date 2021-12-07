@@ -1,5 +1,8 @@
 package pobj.res;
 
+import pobj.exceptions.ErrorValueException;
+import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.header.*;
 
 /**
@@ -25,11 +28,18 @@ public class TrameBuilder implements ITrameBuilder {
 	
 	/**
 	 * Initialise l'entete liaison de la trame
+	 * @throws UnsupportedProtocolException 
+	 * @throws TrameTooShortException 
 	 */
 	@Override
-	public void buildLiaison() {
+	public void buildLiaison() throws UnsupportedProtocolException, TrameTooShortException {
 		//creation de l'entete ethernet
-		Ethernet eth = new Ethernet(content.substring(contentPointer));
+		Ethernet eth;
+		try {
+			eth = new Ethernet(content.substring(contentPointer));
+		}catch(UnsupportedProtocolException e) {
+			throw e;
+		}
 		//ajout de l'entete ethernet dans la trame
 		this.getTrame().setLiaison(eth);
 		//mise a jour du pointeur de la chaine representant la trame
@@ -40,9 +50,10 @@ public class TrameBuilder implements ITrameBuilder {
 
 	/**
 	 * Initialise l'entete reaseau de la trame
+	 * @throws ErrorValueException 
 	 */
 	@Override
-	public void buildReseau() {
+	public void buildReseau() throws ErrorValueException {
 		Header reseau = null;
 		//on test le type du paquet de la couche Reseau
 		switch(nextType)

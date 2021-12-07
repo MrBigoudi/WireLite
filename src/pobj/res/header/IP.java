@@ -31,8 +31,9 @@ public class IP extends Header {
 	/**
 	 * Construit une entete ip
 	 * @param value Chaine de longueur variable composee d'octets sans espaces
+	 * @throws ErrorValueException 
 	 */
-	public IP(String value)
+	public IP(String value) throws ErrorValueException
 	{
 		String version = value.substring(0, 1);
 		String headerLength = value.substring(1, 2);
@@ -61,8 +62,7 @@ public class IP extends Header {
 		{
 			this.testVersion(version);
 		}catch(ErrorValueException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw e;
 		}
 		
 		//ajout des champs dans la liste des champs
@@ -215,6 +215,7 @@ public class IP extends Header {
 			StringBuilder sb = new StringBuilder();
 			//valeur entiere de l'option
 			int valeurOption = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
+			int optionLength;
 			//mise a jour du pointeur
 			pointer+=2;
 			//switch sur la valeur des options
@@ -233,7 +234,7 @@ public class IP extends Header {
 				break;
 			case 7://RR
 				//champ lenogueur de l'option
-				int optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
+				optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
 				//debut de la chaine representant l'option
 				sb.append("\t\tRecord Route (RR): length ");
 				sb.append(optionLength+"\n\t\t");
@@ -242,6 +243,49 @@ public class IP extends Header {
 					sb.append("\tNext Hop: " + IP.convertHexToIP(options.substring(i, i+8)));
 				//maj taille du pointeur
 				pointer += optionLength-2;//-2 car le champ type est deja lue
+				//ajout de l'option dans la chaine finale
+				sj.add(sb);
+				break;
+			case 68://TS
+				//champ lenogueur de l'option
+				optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
+				//debut de la chaine representant l'option
+				sb.append("\t\tTime Stamp (TS): length ");
+				sb.append(optionLength+"\n\t\t");
+				pointer+=2;
+				//offset
+				String offset = options.substring(pointer, pointer+2);
+				sb.append("\t\t\tOffset: 0x" + offset+"\n");
+				pointer+=2;
+				//overflow
+				String overflw = options.substring(pointer, pointer+1);
+				sb.append("\t\t\tOverflw : " + StringUtility.hexaToInt(overflw) + "(0x"+overflw+")\n");
+				pointer++;
+				//flags
+				String flagsTS = options.substring(pointer, pointer+1);
+				sb.append("\t\t\tFlags : " + StringUtility.hexaToInt(flagsTS) + "(0x"+flagsTS +")\n\t\t\t\t");
+				switch(StringUtility.hexaToInt(flagsTS))
+				{
+				case 0:
+					sb.append("time stamps only\n");
+					break;
+				case 1:
+					sb.append("each timestamp is preceded with internet ID of the registering entity\n");
+					break;
+				case 3:
+					sb.append("the internet ID fields are prespecified\n");
+					break;
+				default:
+					break;
+				}
+				pointer++;
+				//internet ID
+				String internetID = options.substring(pointer, pointer+8);
+				sb.append("\t\t\tInternet ID : (0x"+internetID+")\n");
+				pointer+=8;
+				//time stamp
+				String timestamp = options.substring(pointer, pointer+8);
+				sb.append("\t\t\tTime Stamp : (0x" + timestamp+")");
 				//ajout de l'option dans la chaine finale
 				sj.add(sb);
 				break;

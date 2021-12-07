@@ -3,6 +3,9 @@ package pobj.test.protocoles;
 //import static org.junit.Assert.*;
 import org.junit.Test;
 
+import pobj.exceptions.ErrorValueException;
+import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.ITrame;
 import pobj.res.InputFileManager;
 import pobj.res.TrameBuilder;
@@ -29,9 +32,12 @@ public class TestIP {
 	
 	/**
 	 * Test un header IP avec option Record Route
+	 * @throws UnsupportedProtocolException 
+	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
 	 */
 	@Test
-	public void testOptionRR() {
+	public void testOptionRR() throws UnsupportedProtocolException, ErrorValueException, TrameTooShortException {
 		InputFileManager ifm = new InputFileManager("data/testProtocoles/IPOptionRR");
 		String content = ifm.getTrames().get(0);
 		TrameBuilder trBuild = new TrameBuilder(content);

@@ -1,5 +1,9 @@
 package pobj.res;
 
+import pobj.exceptions.ErrorValueException;
+import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
+
 /**
  * Interface permettant de construire une trame selon le Design Pattern Builder
  * @author Sharane et Yannis
@@ -8,13 +12,16 @@ package pobj.res;
 public interface ITrameBuilder {
 	/**
 	 * Initialise l'entete liaison de la trame
+	 * @throws UnsupportedProtocolException
+	 * @throws TrameTooShortException 
 	 */
-	public void buildLiaison();
+	public void buildLiaison() throws UnsupportedProtocolException, TrameTooShortException;
 	
 	/**
 	 * Initialise l'entete reseau de la trame
+	 * @throws ErrorValueException 
 	 */
-	public void buildReseau();
+	public void buildReseau() throws ErrorValueException;
 	
 	/**
 	 * Initialise l'entete transport de la trame

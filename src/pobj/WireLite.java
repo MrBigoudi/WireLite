@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 
+import pobj.exceptions.ErrorValueException;
+import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.*;
 
 /**
@@ -43,12 +46,13 @@ public class WireLite {
 		
 		//creation de la liste des trames
 		List<ITrame> listTrames = new ArrayList<>();
-		
+		//tableau de messages d'erreur
+		String[] errorMessage = new String[list.size()];
 		//tableau de longueur le nombre de trames du fichier contenant true si la trame i est valide, false sinon
 		boolean[] validTrames = new boolean[list.size()];
 		for(int i=0; i<validTrames.length; i++)
 			validTrames[i]=true;
-			
+		
 		
 		//parcours par indice pour reconnaitre les trames
 		for(int i=0; i<list.size(); i++)
@@ -60,11 +64,16 @@ public class WireLite {
 				validTrames[i]=false;
 				continue;
 			}
-			TrameBuilder trBuild = new TrameBuilder(s);
-			TrameDirector trDirector = new TrameDirector(trBuild);
-			//creation de la trame
-			trDirector.constructTrame();
-			listTrames.add(trDirector.getTrame());
+			try {
+				TrameBuilder trBuild = new TrameBuilder(s);
+				TrameDirector trDirector = new TrameDirector(trBuild);
+				//creation de la trame
+				trDirector.constructTrame();
+				listTrames.add(trDirector.getTrame());
+			}catch(Exception e) {
+				errorMessage[i] = e.getMessage();
+			}
+			listTrames.add(null);
 		}
 		
 		//affichage des trames
@@ -80,20 +89,32 @@ public class WireLite {
 			//si la trame d'indice i etait nulle on ecrit un message
 			while(indice<(curTrame-1))
 			{
-				sj.add("Trame " + indice + "\n");
+				sj.add("Trame " + indice);
 				sj.add("########################################");
 				sj.add("Trame en erreur");
 				sj.add("########################################");
+				indice++;
 			}
 			
-			//ajout de la trame
-			sj.add("Trame " + curTrame +"\n"+trame.toString()+"\n\n");
+			//test trame en erreur
+			if(trame==null)
+			{
+				sj.add("Trame " + indice);
+				sj.add("########################################");
+				sj.add("Trame en erreur:\n" + errorMessage[indice-1]);
+				sj.add("########################################");
+			}
+			else
+			{
+				//ajout de la trame
+				sj.add("Trame " + curTrame +"\n"+trame.toString()+"\n");
+			}
 			
 		}
 		//s'il reste des trames nulles on continue a afficher des messages
-		for(int i=curTrame; i<=validTrames.length; i++)
+		for(int i=curTrame+1; i<=validTrames.length; i++)
 		{
-			sj.add("Trame " + i + "\n");
+			sj.add("Trame " + i);
 			sj.add("########################################");
 			sj.add("Trame en erreur");
 			sj.add("########################################");

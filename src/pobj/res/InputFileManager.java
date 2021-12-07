@@ -264,6 +264,7 @@ public class InputFileManager {
 					else {return trame.toString();}
 				}
 			}
+			return trame.toString();
 		default:
 			//offset de la deuxieme ligne
 			int length = StringUtility.hexaToInt(trameContent.get(1)[0])*2; //*2 car sinon length en octet et non en chars

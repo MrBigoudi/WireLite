@@ -2,6 +2,7 @@ package pobj.res.header;
 
 import java.util.StringJoiner;
 
+import pobj.exceptions.TrameTooShortException;
 import pobj.exceptions.UnsupportedProtocolException;
 
 /**
@@ -18,25 +19,33 @@ public class Ethernet extends Header {
 	/**
 	 * Construit une entete ethernet
 	 * @param value Chaine de 14 octets sans espaces
+	 * @throws UnsupportedProtocolException 
+	 * @throws TrameTooShortException 
 	 */
-	public Ethernet(String value)
+	public Ethernet(String value) throws UnsupportedProtocolException, TrameTooShortException
 	{
+		if(value.length()<this.getLength())throw new TrameTooShortException("Il manque des octets dans la trame");
 		String destAddr = value.substring(0, 12);
 		String srcAddr = value.substring(12, 24);
 		String type = value.substring(24, 28);
 		
 		this.addField(new Field(destAddr, "Destination address"));
 		this.addField(new Field(srcAddr, "Source address"));
-		this.addField(new Field(type, "Type"));				
+		this.addField(new Field(type, "Type"));	
+		//gestion d'erreur
+		try{
+			this.getEthernetType(this.getFields().get(ETH_TYPE).getValue());
+		}catch(UnsupportedProtocolException e) {
+			throw e;
+		}
 	}
 
-	@Override
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		Field dst = this.getFields().get(0);
-		Field src = this.getFields().get(1);
-		Field type = this.getFields().get(2);
+		Field dst = this.getFields().get(ETH_DST_ADDR);
+		Field src = this.getFields().get(ETH_SRC_ADDR);
+		Field type = this.getFields().get(ETH_TYPE);
 		
 		sb.append("Ethernet II:\n");
 		sb.append("\t"+dst.getName()+":\n\t\t"+Ethernet.strToMacAddress(dst.getValue())+"\n");
@@ -44,10 +53,7 @@ public class Ethernet extends Header {
 		
 		try {
 			sb.append("\t"+type.getName()+":\n\t\t"+this.getEthernetType(type.getValue())+" (0x"+type.getValue()+")");
-		}catch(UnsupportedProtocolException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+		}catch(UnsupportedProtocolException e) {}
 		
 		return sb.toString();
 	}
@@ -99,7 +105,7 @@ public class Ethernet extends Header {
 		}
 		
 		if(unsupported)
-			throw new UnsupportedProtocolException(res);
+			throw new UnsupportedProtocolException(res + " is not supported");
 		
 		return res;
 	}
