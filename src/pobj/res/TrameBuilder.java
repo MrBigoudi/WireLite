@@ -79,9 +79,10 @@ public class TrameBuilder implements ITrameBuilder {
 	/**
 	 * Initialise l'entete transport de la trame
 	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
 	@Override
-	public void buildTransport() throws TrameTooShortException {
+	public void buildTransport() throws TrameTooShortException, UnsupportedProtocolException {
 		Header transport = null;
 		//on test le type du paquet de la couche Reseau
 		switch(StringUtility.hexaToInt(nextType))

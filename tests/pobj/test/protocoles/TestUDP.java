@@ -4,6 +4,7 @@ package pobj.test.protocoles;
 import org.junit.Test;
 
 import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.header.UDP;
 
 
@@ -18,9 +19,10 @@ public class TestUDP {
 	/**
 	 * Test un header UDP
 	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
 	@Test
-	public void test() throws TrameTooShortException {
+	public void test() throws TrameTooShortException, UnsupportedProtocolException {
 		UDP udp = new UDP("004400430118591f");
 		System.out.println(udp);
 	}

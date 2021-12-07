@@ -1,6 +1,7 @@
 package pobj.res.header;
 
 import pobj.exceptions.TrameTooShortException;
+import pobj.exceptions.UnsupportedProtocolException;
 import pobj.res.StringUtility;
 
 /**
@@ -20,8 +21,9 @@ public class UDP extends Header {
 	 * Construit une entete UDP
 	 * @param value Chaine de longueur variable composee d'octets sans espaces
 	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
-	public UDP(String value) throws TrameTooShortException
+	public UDP(String value) throws TrameTooShortException, UnsupportedProtocolException
 	{
 		if(value.length()<this.getLength())throw new TrameTooShortException();
 		String srcPort = value.substring(0, 4);
@@ -29,16 +31,19 @@ public class UDP extends Header {
 		String totLength = value.substring(8,12);
 		String checksum = value.substring(12,16);
 		
-		
-		//TODO options
-		
-		
 		//ajout des champs dans la liste des champs
 		this.addField(new Field(srcPort, "Source Port"));
 		this.addField(new Field(destPort, "Destination Port"));
 		this.addField(new Field(totLength, "Total length"));
 		this.addField(new Field(checksum, "Checksum"));
-
+		
+		//gestion d'erreur
+		try{
+			this.getPort(this.getFields().get(SRC_PORT_INDICE).getValue());
+			this.getPort(this.getFields().get(DEST_PORT_INDICE).getValue());
+		}catch(UnsupportedProtocolException e) {
+			throw e;
+		}
 		
 	}
 		
@@ -46,14 +51,20 @@ public class UDP extends Header {
 	public String toString()
 	{
 		StringBuilder sb = new StringBuilder();
-		Field srcp = this.getFields().get(0);
-		Field destp = this.getFields().get(1);
-		Field totl = this.getFields().get(2);
-		Field chks = this.getFields().get(3);
+		Field srcp = this.getFields().get(SRC_PORT_INDICE);
+		Field destp = this.getFields().get(DEST_PORT_INDICE);
+		Field totl = this.getFields().get(TOTAL_LENGTH_INDICE);
+		Field chks = this.getFields().get(CHECKSUM_INDICE);
 		
 		sb.append("User Datagram Protocol :\n");
 		sb.append("\t"+srcp.getName()+":  "+StringUtility.hexaToInt(srcp.getValue())+" (0x"+srcp.getValue()+")\n");
+		try {
+			sb.append("\t\t"+this.getPort(srcp.getValue())+"\n");
+		} catch (UnsupportedProtocolException e) {}
 		sb.append("\t"+destp.getName()+":  "+StringUtility.hexaToInt(destp.getValue())+" (0x"+destp.getValue()+")\n");
+		try {
+			sb.append("\t\t"+this.getPort(destp.getValue())+"\n");
+		} catch (UnsupportedProtocolException e) {}
 		sb.append("\t"+totl.getName()+":  "+StringUtility.hexaToInt(totl.getValue())+" (0x"+totl.getValue()+")\n");
 		sb.append("\t"+chks.getName()+":  0x"+chks.getValue()+"\n");
 		
@@ -71,11 +82,52 @@ public class UDP extends Header {
 	}
 
 	/**
-	 * Renvoie la valeur du champ 'Protocol' de l'entete udp
+	 * Renvoie la valeur du champ contenant le prochain protocole suivant l'entete udp
 	 * @return La valeur du champ
 	 */
 	@Override
 	public String getNext() {
-		return "";
+		if(StringUtility.hexaToInt(this.getFields().get(DEST_PORT_INDICE).getValue())<StringUtility.hexaToInt(this.getFields().get(SRC_PORT_INDICE).getValue()))
+			return this.getFields().get(DEST_PORT_INDICE).getValue();
+		return this.getFields().get(SRC_PORT_INDICE).getValue();
+	}
+	
+	/**
+	 * Renvoie la signification d'un port de la trame Ethernet
+	 * @param port Le port source ou destination
+	 * @return La signification du code sous forme de chaine de characteres
+	 * @throws UnsupportedProtocolException
+	 */
+	private String getPort(String port) throws UnsupportedProtocolException
+	{
+		String res = "";
+		boolean unsupported = false;
+		int value = StringUtility.hexaToInt(port);
+		//si la valeur du port n'est pas particuliere
+		if(value>1024)
+			return "Port Libre";
+		//sinon
+		switch(value)
+		{
+		case 67:
+			res = "DHCP";
+			break;
+		case 68:
+			res = "DHCP";
+			break;
+		case 123:
+			res = "NTP";
+			unsupported = true;
+			break;
+		default:
+			res = "Unknown Ethernet Type";
+			unsupported = true;
+			break;
+		}
+		
+		if(unsupported)
+			throw new UnsupportedProtocolException(res + " is not supported");
+		
+		return res;
 	}
 }

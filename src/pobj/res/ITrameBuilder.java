@@ -28,8 +28,9 @@ public interface ITrameBuilder {
 	/**
 	 * Initialise l'entete transport de la trame
 	 * @throws TrameTooShortException 
+	 * @throws UnsupportedProtocolException 
 	 */
-	public void buildTransport() throws TrameTooShortException;
+	public void buildTransport() throws TrameTooShortException, UnsupportedProtocolException;
 	
 	/**
 	 * Initialise l'entete application de la trame
