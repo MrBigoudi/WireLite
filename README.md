@@ -1,4 +1,4 @@
-# projetReseau
+# Projet Reseau 
 
 Projet UE LU3IN033 : Réseaux réalisé par Yannis KEDADRY et Sharane K.MURALI (GROUPE 3)
 
@@ -18,6 +18,8 @@ Le code est implémenté en Java, la raison est que la programmation objet nous 
 
 ### Classe WireLite
 
+Classe principale qui représente le "Wireshark Lite" et s'occupe de la gestion des fichiers entrée/sortie.
+
 ### Les classes d'extraction de trame
 
 Les classes suivantes s'occupent du traitement du fichier texte en paramètre pour en extraire des trames adaptés à notre code.
@@ -36,13 +38,19 @@ Interface permettant de construire une trame selon le Design Pattern Builder.
 
 #### Classe StringUtility
 
+Classe abstraite qui transforme une chaine de caractères représentant un héxadécimal en chaine de caractères représentant un binaire.
+
 #### Classe Trame
 
+Classe qui représente une trame.
+
 #### Classe TrameBuilder
+
 Classe qui utilise le Design Pattern Builder pour diviser la construction d'une trame en construisant un a un chaque entête et les compléter.
 
-#### Classe TrameDirector
-Classe qui génère les TrameBuilder
+####Classe TrameDirector
+
+Classe Director utilisé pour le Design Pattern Builder.
 
 ### Les exceptions
 
@@ -110,7 +118,7 @@ Après le traitement par la classe UDP, si le protocole encapsulé est DHCP, la 
 
 Cette classe identifie le type de message DHCP encapsulé et décrit les diférents champs du protocole. 
 
-Parmi les options prises en charge par DHCP, 78 options (0-77 et 255) sont codés et pris en charges. Les options 78 à 255 sont identifiées mais non traitées. 
+Parmi les options prises en charge par DHCP, 78 options (0-76 et 255) sont codés et pris en charges. Les options 78 à 255 sont identifiées mais non traitées. 
 
 #### Classe DNS
 
