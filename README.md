@@ -127,3 +127,8 @@ Après le traitement par la classe UDP, si le protocole encapsulé est DNS, la c
 
 Cette classe identifie le type de message DNS encapsulé et décrit les différents champs du protocole. 
 
+## Références/Sources
+
+RFC2132 : http://rfc-editor.org/rfc/rfc2132.html
+DHCP Options : https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
+Cours Medium de Prométhée Spathis : https://spathis.medium.com/comprendre-internet-et-son-fonctionnement-9b2f63a07430
