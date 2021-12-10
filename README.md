@@ -132,3 +132,5 @@ Cette classe identifie le type de message DNS encapsulé et décrit les différe
 <br>RFC2132 : http://rfc-editor.org/rfc/rfc2132.html
 <br>DHCP Options : https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
 <br>Cours Medium de Prométhée Spathis : https://spathis.medium.com/comprendre-internet-et-son-fonctionnement-9b2f63a07430
+<br>Samples de trames : https://wiki.wireshark.org/SampleCaptures
+
