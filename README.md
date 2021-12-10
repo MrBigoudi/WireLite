@@ -48,9 +48,9 @@ Classe qui représente une trame.
 
 Classe qui utilise le Design Pattern Builder pour diviser la construction d'une trame en construisant un a un chaque entête et les compléter.
 
-####Classe TrameDirector
+#### Classe TrameDirector
 
-Classe Director utilisé pour le Design Pattern Builder.
+Classe qui initialise les TramesBuilder.
 
 ### Les exceptions
 
@@ -129,6 +129,6 @@ Cette classe identifie le type de message DNS encapsulé et décrit les différe
 
 ## Références/Sources
 
-RFC2132 : http://rfc-editor.org/rfc/rfc2132.html
-DHCP Options : https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
-Cours Medium de Prométhée Spathis : https://spathis.medium.com/comprendre-internet-et-son-fonctionnement-9b2f63a07430
+<br>RFC2132 : http://rfc-editor.org/rfc/rfc2132.html
+<br>DHCP Options : https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
+<br>Cours Medium de Prométhée Spathis : https://spathis.medium.com/comprendre-internet-et-son-fonctionnement-9b2f63a07430
