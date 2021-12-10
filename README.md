@@ -41,8 +41,8 @@ Interface permettant de construire une trame selon le Design Pattern Builder.
 #### Classe TrameBuilder
 Classe qui utilise le Design Pattern Builder pour diviser la construction d'une trame en construisant un a un chaque entête et les compléter.
 
-
-####Classe TrameDirector
+#### Classe TrameDirector
+Classe qui génère les TrameBuilder
 
 ### Les exceptions
 
