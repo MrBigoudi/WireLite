@@ -14,7 +14,7 @@ public class TestWireLite {
 	 */
 	@Test
 	public void testEasy() {
-		String[] args = {"data/testWireLite/traceError"};
+		String[] args = {"data/testWireLite/dhcp"};
 		WireLite.main(args);
 	}
 }

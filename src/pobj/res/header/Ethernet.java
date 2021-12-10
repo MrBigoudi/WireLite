@@ -52,7 +52,7 @@ public class Ethernet extends Header {
 		sb.append("\t"+src.getName()+":\n\t\t"+Ethernet.strToMacAddress(src.getValue())+"\n");
 		
 		try {
-			sb.append("\t"+type.getName()+":\n\t\t"+this.getEthernetType(type.getValue())+" (0x"+type.getValue()+")");
+			sb.append("\t"+type.getName()+":\n\t\t"+this.getEthernetType(type.getValue())+" (0x"+type.getValue()+")\n");
 		}catch(UnsupportedProtocolException e) {}
 		
 		return sb.toString();

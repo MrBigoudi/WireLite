@@ -24,6 +24,12 @@ public abstract class StringUtility {
 	    hex = hex.replaceAll("D", "1101");
 	    hex = hex.replaceAll("E", "1110");
 	    hex = hex.replaceAll("F", "1111");
+	    hex = hex.replaceAll("a", "1010");
+	    hex = hex.replaceAll("b", "1011");
+	    hex = hex.replaceAll("c", "1100");
+	    hex = hex.replaceAll("d", "1101");
+	    hex = hex.replaceAll("e", "1110");
+	    hex = hex.replaceAll("f", "1111");
 	    return hex;
 	}
 	
@@ -35,5 +41,15 @@ public abstract class StringUtility {
 	public static int hexaToInt(String hex)
 	{
 		return Integer.parseInt(hex, 16); //convert hex in a string to an int
+	}
+	
+	/**
+	 * Transforme une chaine de characteres representnant un binaire en entier
+	 * @param bin Le binaire a convertir
+	 * @return Le binaire sous forme d'entier
+	 */
+	public static int binToInt(String bin)
+	{
+		return Integer.parseInt(bin, 2); //convert bin in a string to an int
 	}
 }

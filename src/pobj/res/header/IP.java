@@ -352,6 +352,13 @@ public class IP extends Header {
 				sj.add(sb);
 				break;
 			default://autres options si possible
+				//champ lenogueur de l'option\t\tTime Stamp (TS): length "
+				optionLength = StringUtility.hexaToInt(options.substring(pointer, pointer+2));
+				//debut de la chaine representant l'option
+				sb.append("\t\tUnknown option " + valeurOption+" : \n\t\t\tlength ");
+				pointer+=2;
+				sb.append(optionLength+"\n\t\t\tvalue : "+options.substring(pointer, optionLength-4));	
+				sj.add(sb);
 				break;
 			}
 		}

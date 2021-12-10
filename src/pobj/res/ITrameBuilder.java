@@ -34,8 +34,10 @@ public interface ITrameBuilder {
 	
 	/**
 	 * Initialise l'entete application de la trame
+	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
 	 */
-	public void buildApplication();
+	public void buildApplication() throws ErrorValueException, TrameTooShortException;
 	
 	/**
 	 * Renvoie la trame cree

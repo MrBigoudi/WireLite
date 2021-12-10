@@ -101,15 +101,43 @@ public class TrameBuilder implements ITrameBuilder {
 		contentPointer += transport.getLength(); 
 		//mise a jour du prochain type encapsule
 		nextType = transport.getNext();
+		//System.out.println(nextType);
 	}
 
 	/**
 	 * Initialise l'entete application de la trame
+	 * @throws ErrorValueException 
+	 * @throws TrameTooShortException 
 	 */
 	@Override
-	public void buildApplication() {
-		// TODO Auto-generated method stub
-
+	public void buildApplication() throws ErrorValueException, TrameTooShortException {
+		Header application = null;
+		//on test le type du paquet de la couche Reseau
+		switch(StringUtility.hexaToInt(nextType))
+		{
+		//cas couche application = DNS
+		case 53:
+			//creation de l'entete dns
+			application = new DNS(content.substring(this.contentPointer));
+			break;
+		//cas couche application = DHCP
+		case 67:
+			//creation de l'entete DHCP
+			application = new DHCP(content.substring(this.contentPointer));
+			break;
+		case 68:
+			//creation de l'entete DHCP
+			application = new DHCP(content.substring(this.contentPointer));
+			break;
+		default:
+			return;
+		}
+		//ajout de l'entete udp
+		this.getTrame().setApplication(application);
+		//mise a jour du pointeur
+		contentPointer += application.getLength(); 
+		//mise a jour du prochain type encapsule
+		nextType = null;
 	}
 
 	/**

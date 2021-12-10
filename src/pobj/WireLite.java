@@ -72,8 +72,8 @@ public class WireLite {
 				listTrames.add(trDirector.getTrame());
 			}catch(Exception e) {
 				errorMessage[i] = e.getMessage();
+				listTrames.add(null);
 			}
-			listTrames.add(null);
 		}
 		
 		//affichage des trames

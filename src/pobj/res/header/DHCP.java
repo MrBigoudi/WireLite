@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.StringJoiner;
 
+import pobj.exceptions.TrameTooShortException;
 import pobj.res.StringUtility;
 
 /**
@@ -37,12 +38,13 @@ public class DHCP extends Header {
 	/**
 	 * Construit une entete DHCP
 	 * @param value Chaine de longueur variable composee d'octets sans espaces
+	 * @throws TrameTooShortException 
 	 */
 	
-	public DHCP(String value)
+	public DHCP(String value) throws TrameTooShortException
 	{
 		valeur = value;
-	
+		if(value.length()<480)throw new TrameTooShortException();
 		String opcode = value.substring(0, 2);
 		String hardwareType = value.substring(2, 4);
 		String hardwareAddressLength = value.substring(4,6);
@@ -63,10 +65,7 @@ public class DHCP extends Header {
 		String serverName = value.substring(88,216);	
 		String bootFileName = value.substring(216,472);	
 		String magicCookie = value.substring(472,480);
-		String option = value.substring(480, this.getLength());
-		
-		//TODO options
-		
+		String option = value.substring(480, this.getLength());		
 		
 		//ajout des champs dans la liste des champs
 		this.addField(new Field(opcode, "Message Type"));
