@@ -4,7 +4,7 @@ Projet UE LU3IN033 : Réseaux réalisé par Yannis KEDADRY et Sharane K.MURALI (
 
 ## Introduction
 
-Notre code s'appelle WireLite. Il s'agit d'un analyseur offline qui prend un ficher texte contenant des trames et renvoie un fichier texte contentant l'analyse complète des trames.
+Notre application s'appelle WireLite. Il s'agit d'un analyseur offline qui prend un ficher texte contenant des trames et renvoie un fichier texte contentant l'analyse complète des trames.
 
 ## Prise en charge
 Le code conçu prend en charge les protocoles suivants : Ethernet, IPv4, UDP, DHCP et DNS.
