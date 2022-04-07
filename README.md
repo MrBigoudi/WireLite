@@ -1,6 +1,6 @@
 # Projet Reseau 
 
-Projet UE LU3IN033 : Réseaux réalisé par Yannis KEDADRY et Sharane K.MURALI (GROUPE 3)
+Projet UE LU3IN033 : Réseaux réalisé par Yannis KEDADRY (MrBigoudi) et Sharane K.MURALI (GROUPE 3)
 
 ## Introduction
 
